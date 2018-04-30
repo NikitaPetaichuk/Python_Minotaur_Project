@@ -1,0 +1,4 @@
+root/A2/A3/file.txt
+root/A1/file4.txt
+root/A2/file2.txt
+root/A2/A3/file3.txt
