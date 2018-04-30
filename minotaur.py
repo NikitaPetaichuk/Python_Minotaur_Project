@@ -32,6 +32,9 @@ def search_Minotaur(start, file_name, chain):
     chain.pop()
     return 0
 
-start_dir, now_file, chain = sys.argv[1], "file.txt", list()
-if search_Minotaur(start_dir, "file.txt", chain) == 1:
-    write_in_file(chain)
+if __name__ = '__main__':
+    start_dir, now_file, chain = sys.argv[1], "file.txt", list()
+    if search_Minotaur(start_dir, "file.txt", chain) == 1:
+        write_in_file(chain)
+    else:
+        print("There is no Minotaur here")
