@@ -21,20 +21,28 @@ def search_Minotaur(start, file_name, chain):
     if now_path is not None:
         with open(now_path) as now:
             lines = now.readlines()
-            if lines[0].strip() == "Minotaur":
-                return 1
-            elif lines[0].strip() == "Deadlock":
-                chain.pop()
-                return 0
-            for way in lines:
-                if search_Minotaur(start, way.split()[1], chain) == 1:
+            try:
+                if lines[0].strip() == "Minotaur":
                     return 1
+                elif lines[0].strip() == "Deadlock":
+                    chain.pop()
+                    return 0
+                for way in lines:
+                    if way.split()[0] == '@include' and search_Minotaur(start, way.split()[1], chain) == 1:
+                        return 1
+            except IndexError:
+                print("Incorrect file data!")
+                return 0
     chain.pop()
     return 0
 
-if __name__ = '__main__':
-    start_dir, now_file, chain = sys.argv[1], "file.txt", list()
-    if search_Minotaur(start_dir, "file.txt", chain) == 1:
-        write_in_file(chain)
-    else:
-        print("There is no Minotaur here")
+if __name__ == '__main__':
+    try:
+        start_dir, now_file, chain = sys.argv[1], "file.txt", list()
+        if search_Minotaur(start_dir, "file.txt", chain) == 1:
+            write_in_file(chain)
+            print("Success!")
+        else:
+            print("There is no Minotaur here")
+    except IndexError:
+        print("Usage: python3 minotaur.py root_name")
