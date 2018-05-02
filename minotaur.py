@@ -27,7 +27,7 @@ def search_Minotaur(start, file_name, chain):
                     chain.pop()
                     return 0
                 for way in lines:
-                    if way.split()[0] == '@include' and way.split()[1].endsWith(".txt"):
+                    if way.split()[0] == '@include' and way.split()[1].endswith(".txt"):
                         if search_Minotaur(start, way.split()[1], chain) == 1:
                             return 1
             except IndexError:
