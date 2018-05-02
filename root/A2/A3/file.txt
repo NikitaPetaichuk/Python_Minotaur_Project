@@ -1,3 +1,0 @@
-@include file1.txt
-@include file4.txt
-@include file5.txt
