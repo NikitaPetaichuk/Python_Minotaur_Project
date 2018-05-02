@@ -40,7 +40,7 @@ if __name__ == '__main__':
         if dir_tree_generate(root_name, depth) == 0:
             sys.exit(0)
     except (IndexError, ValueError):
-        print("Incorrect arguments!")
+        print("Incorrect arguments! Usage: python3 root_generator root_name depth")
         sys.exit(0)
     tree, now_key = TREE_MODEL, "file"
     while tree[now_key] != 0:
@@ -49,3 +49,4 @@ if __name__ == '__main__':
     for elem in file_sys_tuple:
         root_list.append(elem[0])
     create_files(tree, root_list)
+    print("Successfully done!")
