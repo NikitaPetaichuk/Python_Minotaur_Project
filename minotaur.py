@@ -1,11 +1,17 @@
 import os
 import os.path
-import sys
+import argparse
 
-def write_in_file(path_to_minor):
-    with open("minotaur_result.txt", "w") as output:
+def create_parser():
+    pars = argparse.ArgumentParser()
+    pars.add_argument("root_name")
+    pars.add_argument("-f", "--file_name", default = "minotaur_result.txt")
+    return pars
+
+def write_in_file(path_to_minor, new_file_name):
+    with open(new_file_name, "w") as output:
         for elem in path_to_minor:
-             output.write(elem + "\n")
+             output.write("{}\n".format(elem))
 
 def search_file(start_dir, file_name):
     for root, dirs, files in os.walk(start_dir):
@@ -16,7 +22,7 @@ def search_file(start_dir, file_name):
 
 def search_Minotaur(start, file_name, chain):
     chain.append(search_file(start, file_name))
-    now_path = chain[len(chain) - 1]
+    now_path = chain[-1]
     if now_path is not None:
         with open(now_path) as now:
             lines = now.readlines()
@@ -31,18 +37,19 @@ def search_Minotaur(start, file_name, chain):
                         if search_Minotaur(start, way.split()[1], chain) == 1:
                             return 1
             except IndexError:
-                print("Incorrect file data in " + now_path + "!")
+                print("Incorrect file data in {}!".format(now_path))
                 return 0
     chain.pop()
     return 0
 
+def start(namespace):
+    chain, start_file = list(), "file.txt"
+    start_dir, result_file = namespace.root_name, namespace.file_name
+    if search_Minotaur(start_dir, start_file, chain) == 1:
+        write_in_file(chain, result_file)
+        print("Success!")
+    else:
+        print("There is no Minotaur here") 
+    
 if __name__ == '__main__':
-    try:
-        start_dir, now_file, chain = sys.argv[1], "file.txt", list()
-        if search_Minotaur(start_dir, "file.txt", chain) == 1:
-            write_in_file(chain)
-            print("Success!")
-        else:
-            print("There is no Minotaur here")
-    except IndexError:
-        print("Usage: python3 minotaur.py root_name")
+    start(create_parser().parse_args())
