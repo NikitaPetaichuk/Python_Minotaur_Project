@@ -32,7 +32,8 @@ def dir_tree_generate(root, depth, dir_list):
         raise
         
 
-def create_files(tree, dir_list):
+def create_files(dir_list):
+    tree = create_tree()
     for key, value in tree.items():
         with open(os.path.join(random.choice(dir_list), "{}.txt".format(key)), "w") as new_file:
             if value == "Minotaur":
@@ -45,9 +46,9 @@ def create_files(tree, dir_list):
 
 if __name__ == '__main__':
     try:
-        namespace, tree, dir_list = create_parser().parse_args(), create_tree(), list()
+        dir_list, namespace = list(), create_parser().parse_args()
         dir_tree_generate(namespace.root_name, namespace.depth, dir_list)
-        create_files(tree, dir_list)
+        create_files(dir_list)
         print("Successfully done!")
     except OSError:
         print("The directory \"{}\" already exists!".format(namespace.root_name))
